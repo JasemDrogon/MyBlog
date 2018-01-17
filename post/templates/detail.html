@@ -1,0 +1,79 @@
+{% extends "base.html" %}
+
+{% load crispy_forms_tags %}
+
+{% block header %}
+
+	Detail
+	 
+{% endblock header %}
+
+{% block content %}
+
+
+	{{title.title}}
+
+ {% if title.photo %}
+
+	<img class  ="card-img-top" src="{{title.photo.url}}" alt="Article image">
+
+ {% endif %}
+	<button class="btn" onclick="like_button()">
+		<div id="like-count">{{count}}</div>
+		<i id="like-diamond" class="fa fa-diamond {% if liked %}
+									text-info
+									{% endif %}" aria-hidden="true"></i>
+	</button>
+ 
+	<p class="card-text">
+	 	{% for comment in comments %}
+	 		<div class="alert alert-primary">({{comment.timestamp|timesince}}){{comment.user}}: {{comment.blob}}</div>
+	 	{% endfor %}
+	</p>
+	<p class="card-text">
+	 	<form action="{% url 'detail' post_id=title.id %}" method="POST">
+	 		{% csrf_token %}
+	 		{{form|crispy}}
+	 		<input type="submit" class="btn btn-outline-primary" value="Submit">
+	 	</form>
+	</p>
+
+
+<script>
+function like_button()	{
+	$.ajax({
+		type:"GET",
+		url:"{% url 'likes' post_id=title.id %}",
+		error: function(){
+				alert("Something went WRONG!")
+
+		},
+		success: function(data){
+				$("#like-count").text(data.count);
+				if(data.action==="like"){
+					$("#like-diamond").addClass("text-info");
+				}
+				else
+				{
+					$("#like-diamond").removeClass("text-info");
+				}
+
+
+
+
+		},
+	});
+
+}
+</script>
+
+	{{title.content}}
+
+
+
+	{{title.created}}
+	
+	{{title.updated}}
+
+
+{% endblock content %}

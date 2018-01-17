@@ -1,0 +1,47 @@
+{% extends "base.html" %}
+
+{% block header %}
+
+	List
+
+{% endblock header %}
+
+{% block content %}
+
+ <form action="{% url 'list' %}" method="GET" class="input-group">
+ 	<input type="text" name="q" placeholder="Search for Articles..." class="form-control" value="{{request.GET.q}}">
+	<div class="input-group-append">
+	 	<input type="submit" value="Search" class="btn btn-outline-primary">
+ 	</div>
+</form>
+<div class="row">
+ {% for object in posts %}
+
+
+ <div class="col-sm-6 col-md-4">
+	<div class="card">
+			   {% if object.photo %}
+					<img class="card-img-top" src="{{object.photo.url}}" alt="Article image">
+			   {% endif %}
+			<div class="card">
+  
+  <div class="card-body">
+    <h5 class="card-title">{{object.title}}</h5>
+    <p class="card-text">{{object.content}}  <br> {{object.author}} </p>
+  </div>
+</div>
+			   {% if request.user.is_staff or request.user.is_superuser %}
+			   		<a href="{% url 'update' post_id=object.pk %}" class="btn btn-primary">Update</a>
+			   		<a href="{% url 'delete' post_id=object.pk %}" class="btn btn-danger">Delete</a>
+			   {% endif %}
+		</div>
+	</div>
+
+
+
+
+{% endfor %}
+</div>
+{% endblock content %}
+
+
