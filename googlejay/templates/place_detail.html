@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+
+	
+	<div class="card"">
+	  <div class="card-body">
+		<h5 class="card-title">{{response.result.name}}</h5>
+		<p class="card-text">{{response.result.formatted_address}}</h6>
+		<h5 class="card-title">Place ID: {{response.result.place_id}}</h5>
+		<p class="card-text">Rating: {{response.result.rating}}</p>
+		<p class="card-text">Number: {{response.result.international_pohne_number}}</p>
+		<p class="card-text">Latitiude, Longitude: {{response.result.geometry.location.lat}}, {{response.result.geometry.location.lng}}</p>
+	  </div>
+	</div>
+
+<iframe
+  width="600"
+  height="450"
+  frameborder="0" style="border:0"
+  src="https://www.google.com/maps/embed/v1/place?key=AIzaSyBfQfdWfbNFUFmu5xKa1z9NmUXxFQORnlQ
+    &q={{response.result.geometry.location.lat}}, {{response.result.geometry.location.lng}}" allowfullscreen>
+</iframe>
+
+
+
+{% endblock content %}

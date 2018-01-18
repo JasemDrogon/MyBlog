@@ -21,7 +21,8 @@ from django.conf.urls.static import static
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('home/', include('post.urls') )
+    path('home/', include('post.urls')), 
+    path('googlejay/', include('googlejay.urls'))    
 ]
 
 if settings.DEBUG: #debug wont be turned on if the project is live
